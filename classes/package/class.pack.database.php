@@ -285,6 +285,13 @@ class DUP_Database
         $handle = fopen($this->dbStorePath, 'w+');
         $tables = $wpdb->get_col('SHOW TABLES');
 
+        foreach ($tables as $key => $val) {
+            $length = strlen($wpdb->prefix);
+            if(substr($tables[$key], 0, $length) !== $wpdb->prefix) {
+              unset($tables[$key]);
+            }
+        }
+
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
         $tblAllCount  = count($tables);
         $tblFilterOn  = ($this->FilterOn) ? 'ON' : 'OFF';
