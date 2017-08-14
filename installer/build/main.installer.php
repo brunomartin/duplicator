@@ -19,7 +19,7 @@
 
 if (file_exists('dtoken.php')) {
     //This is most likely inside the snapshot folder.
-    
+
     //DOWNLOAD ONLY: (Only enable download from within the snapshot directory)
     if (isset($_GET['get']) && isset($_GET['file'])) {
         //Clean the input, strip out anything not alpha-numeric or "_.", so restricts
@@ -62,7 +62,7 @@ if (file_exists('dtoken.php')) {
 ADVANCED FEATURES - Allows admins to perform aditional logic on the import.
 
 $GLOBALS['REPLACE_LIST']
-	Add additional search and replace items to step 2 for the serialize engine.  
+	Add additional search and replace items to step 2 for the serialize engine.
 	Place directly below $GLOBALS['REPLACE_LIST'] variable below your items
 	EXAMPLE:
 		array_push($GLOBALS['REPLACE_LIST'], array('search' => 'https://oldurl/',  'replace' => 'https://newurl/'));
@@ -70,7 +70,7 @@ $GLOBALS['REPLACE_LIST']
   ================================================================================================= */
 
 // Some machines don’t have this set so just do it here.
-date_default_timezone_set('UTC'); 
+date_default_timezone_set('UTC');
 
 //COMPARE VALUES
 $GLOBALS['DUPX_DEBUG']		= false;
@@ -100,7 +100,7 @@ $GLOBALS['FW_OPTS_DELETE']		= json_decode("%fwrite_opts_delete%", true);
 $GLOBALS['FW_DUPLICATOR_VERSION'] = '%fwrite_duplicator_version%';
 $GLOBALS['FW_ARCHIVE_ONLYDB']	= '%fwrite_archive_onlydb%';
 
-//DATABASE SETUP: all time in seconds	
+//DATABASE SETUP: all time in seconds
 $GLOBALS['DB_MAX_TIME']		= 5000;
 $GLOBALS['DB_MAX_PACKETS']	= 268435456;
 $GLOBALS['DB_FCGI_FLUSH']	= false;
@@ -128,7 +128,7 @@ $GLOBALS['REPLACE_LIST'] = array();
   =================================================================================================== */
 
 //CONSTANTS
-define("DUPLICATOR_INIT", 1); 
+define("DUPLICATOR_INIT", 1);
 define("DUPLICATOR_SSDIR_NAME", 'wp-snapshots');  //This should match DUPLICATOR_SSDIR_NAME in duplicator.php
 
 //SHARED POST PARMS
@@ -194,16 +194,16 @@ if (isset($_POST['action_ajax'])) :
 
 endif;
 ?>
-	
-	
+
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="robots" content="noindex,nofollow">
 	<title>Duplicator</title>
-	@@INC.LIBS.CSS.PHP@@	
-	@@INC.CSS.PHP@@	
+	@@INC.LIBS.CSS.PHP@@
+	@@INC.CSS.PHP@@
 	@@INC.LIBS.JS.PHP@@
 	@@INC.JS.PHP@@
 </head>
@@ -259,7 +259,7 @@ switch ($_POST['action_step']) {
 } else {
 	?> @@VIEW.HELP.PHP@@ <?php
 }
-	
+
 ?>
 </div>
 </div><br/>

@@ -136,15 +136,15 @@ function_exists('mysqli_connect') or DUPX_Log::error(ERR_MYSQLI_SUPPORT);
 $dbh = DUPX_DB::connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], null, $_POST['dbport']);
 @mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
 ($dbh) or DUPX_Log::error(ERR_DBCONNECT . mysqli_connect_error());
-if ($_POST['dbaction'] == 'empty') {
+if ($_POST['dbaction'] == 'empty' or $_POST['dbaction'] == 'update') {
 	mysqli_select_db($dbh, $_POST['dbname']) or DUPX_Log::error(sprintf(ERR_DBCREATE, $_POST['dbname']));
 }
 //ERR_DBEMPTY
 if ($_POST['dbaction'] == 'create' ) {
 	$tblcount = DUPX_DB::countTables($dbh, $_POST['dbname']);
-	if ($tblcount > 0) {
-		DUPX_Log::error(sprintf(ERR_DBEMPTY, $_POST['dbname'], $tblcount));
-	}
+	// if ($tblcount > 0) {
+	// 	DUPX_Log::error(sprintf(ERR_DBEMPTY, $_POST['dbname'], $tblcount));
+	// }
 }
 
 $log = <<<LOG
@@ -286,13 +286,21 @@ switch ($_POST['dbaction']) {
 		or DUPX_Log::error(sprintf(ERR_DBCONNECT_CREATE, $_POST['dbname']));
 		break;
 	case "empty":
+	case "update":
 		//DROP DB TABLES
 		$drop_log = "Database already empty. Ready for install.";
 		$sql = "SHOW TABLES FROM `{$_POST['dbname']}`";
 		$found_tables = null;
 		if ($result = mysqli_query($dbh, $sql)) {
 			while ($row = mysqli_fetch_row($result)) {
-				$found_tables[] = $row[0];
+				if($_POST['dbaction'] == "empty") {
+					$found_tables[] = $row[0];
+				} else {
+					$length = strlen($GLOBALS['FW_TABLEPREFIX']);
+					if(substr($tables[$key], 0, $length) === $GLOBALS['FW_TABLEPREFIX']) {
+						$found_tables[] = $row[0];
+					}
+				}
 			}
 			if (count($found_tables) > 0) {
 				foreach ($found_tables as $table_name) {

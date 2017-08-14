@@ -17,7 +17,7 @@
 	form.content-form {min-height:550px; position:relative; line-height:17px}
     div.status-badge-pass {border-radius:4px; color:#fff; padding:0 4px 0 4px;  font-size:12px; min-width:30px; text-align:center; background-color:#418446;display:inline-block }
     div.status-badge-fail {border-radius:4px; color:#fff; padding:0 4px 0 4px;  font-size:12px; min-width:30px; text-align:center; background-color:maroon; display:inline-block}
-	
+
 	/* WIZARD STEPS */
 	table.dupx-header {border-top-left-radius:5px; border-top-right-radius:5px; width:100%; box-shadow:0 5px 3px -3px #999;	background-color:#F1F1F1; font-weight:bold;}
     .dupx-header-version {white-space:nowrap; color:#777; font-size:11px; font-style:italic; text-align:right;  padding:0 15px 5px 0; line-height:14px; font-weight:normal;}
@@ -66,7 +66,7 @@
 	div#modal-window div.modal-title {background-color:#D0D0D0}
 	div#modal-window div.modal-text {padding-top:10px !important}
 	div.archive-onlydb {color:#DB4B38; font-weight:normal; position:absolute; top:5px; right:20px; font-style:italic; font-size:11px}
-	
+
 	/* ======================================
 	STEP 1 VIEW
     ====================================== */
@@ -98,7 +98,7 @@
     div#s1-warning-msg {padding:5px;font-size:12px; color:#333; line-height:14px;font-style:italic; overflow-y:scroll; height:150px; border:1px solid #dfdfdf; background:#fff; border-radius:3px}
 	div#s1-warning-check {padding:3px; font-size:14px; font-weight:normal;}
     input#accept-warnings {height: 17px; width:17px}
-	
+
     /* ======================================
 	STEP 2 VIEW
     ====================================== */
@@ -131,13 +131,14 @@
 	div.s2-gopro small {font-style: italic}
 	div.s2-cpanel-login {padding:15px; color:#fff; text-align:center; margin:15px 5px 15px 5px; border:1px solid silver; border-radius:5px; background-color:#13659C; font-size:14px; line-height:22px}
 	div.s2-cpanel-off {padding:15px; color:#fff; text-align:center; margin:15px 5px 15px 5px; border:1px solid silver; border-radius:5px; background-color:#b54949; font-size:14px; line-height:22px}
-	
+
 	/*Advanced Options & Warning Area*/
 	div#s2-area-adv-opts label {cursor: pointer}
 	div#s2-warning {padding:5px;font-size:12px; color:gray; line-height:12px;font-style:italic; overflow-y:scroll; height:150px; border:1px solid #dfdfdf; background-color:#fff; border-radius:3px}
 	div#s2-warning-check {padding:5px; font-size:12px; font-weight:normal; font-style:italic;}
     div#s2-warning-check label {cursor: pointer; line-height: 14px}
 	div#s2-warning-emptydb {display:none; color:#AF2222; margin:2px 0 0 0; font-size: 11px}
+	div#s2-warning-updatedb {display:none; color:#AF2222; margin:2px 0 0 0; font-size: 11px}
 	table.s2-advopts label.radio {width:50px; display:inline-block}
 
 	/* ======================================

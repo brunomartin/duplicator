@@ -26,6 +26,7 @@ VIEW: STEP 3- INPUT -->
 	<input type="hidden" name="dbuser" 		 value="<?php echo $_POST['dbuser'] ?>" />
 	<input type="hidden" name="dbpass" 		 value="<?php echo htmlentities($_POST['dbpass']) ?>" />
 	<input type="hidden" name="dbname" 		 value="<?php echo $_POST['dbname'] ?>" />
+	<input type="hidden" name="dbprefix" 		 value="<?php echo $_POST['dbprefix'] ?>" />
 	<input type="hidden" name="dbcharset" 	 value="<?php echo $_POST['dbcharset'] ?>" />
 	<input type="hidden" name="dbcollate" 	 value="<?php echo $_POST['dbcollate'] ?>" />
 
@@ -95,7 +96,7 @@ VIEW: STEP 3- INPUT -->
 					<input type="text" name="siteurl" id="siteurl" value="" />
 					<a href="javascript:DUPX.getNewURL('siteurl')" style="font-size:12px">get</a><br/>
 				</td>
-			</tr> 
+			</tr>
             <tr>
                 <td>Old URL:</td>
                 <td>
@@ -111,7 +112,7 @@ VIEW: STEP 3- INPUT -->
                 </td>
             </tr>
         </table><br/>
-        
+
 		<table>
 			<tr>
 				<td style="padding-right:10px">
@@ -150,7 +151,7 @@ VIEW: STEP 3- INPUT -->
 		<input type="checkbox" name="fullsearch" id="fullsearch" value="1" /> <label for="fullsearch">Use Database Full Search Mode </label><br/>
 		<input type="checkbox" name="postguid" id="postguid" value="1" /> <label for="postguid">Keep Post GUID Unchanged</label><br/>
 		<br/><br/>
-		
+
 		<!-- WP-CONFIG -->
 		<div class="hdr-sub3">WP-Config File</div>
 		<table class="dupx-opts dupx-advopts">
@@ -176,7 +177,7 @@ VIEW: STEP 3- INPUT -->
 
 
 <!-- =========================================
-VIEW: STEP 3 - AJAX RESULT 
+VIEW: STEP 3 - AJAX RESULT
 ========================================= -->
 <form id='s3-result-form' method="post" class="content-form" style="display:none">
 
@@ -219,7 +220,7 @@ VIEW: STEP 3 - AJAX RESULT
 </form>
 
 <script>
-/** 
+/**
 * Timeout (10000000 = 166 minutes) */
 DUPX.runUpdate = function()
 {

@@ -35,7 +35,8 @@ VIEW: STEP 2- INPUT -->
 					<td>
 						<select name="dbaction" id="dbaction">
 							<option value="create">Create New Database</option>
-							<option value="empty" selected="true">Connect and Remove All Data</option>
+							<option value="empty">Connect and Remove All Data</option>
+							<option value="update" selected="true">Connect and Update Necessary Data</option>
 						</select>
 					</td>
 				</tr>
@@ -60,6 +61,9 @@ VIEW: STEP 2- INPUT -->
 						 <div id="s2-warning-emptydb">
 							 <label for="accept-warnings">Warning: The selected 'Action' above will remove <u>all data</u> from this database!</label>
 						</div>
+            <div id="s2-warning-updatedb">
+              <label for="accept-warnings">Warning: The selected 'Action' above will try to update <u>necessary data</u> from this database!</label>
+           </div>
 					</td>
 				</tr>
 				<tr>
@@ -69,6 +73,10 @@ VIEW: STEP 2- INPUT -->
 				<tr>
 					<td>Password:</td>
 					<td><input type="text" name="dbpass" id="dbpass" value="<?php echo htmlspecialchars($GLOBALS['FW_DBPASS']); ?>"  placeholder="valid database user password"   /></td>
+				</tr>
+				<tr>
+					<td>Prefix:</td>
+					<td><input type="text" name="dbprefix" id="dbprefix" value="<?php echo htmlspecialchars($GLOBALS['FW_TABLEPREFIX']); ?>"  placeholder="valid database table prefix"   /></td>
 				</tr>
 			</table>
 		</div>
@@ -95,7 +103,7 @@ VIEW: STEP 2- INPUT -->
 
 
 			<div style="text-align: center; font-size: 14px">
-                                Want <span style="font-style: italic;">even easier</span> installs?  
+                                Want <span style="font-style: italic;">even easier</span> installs?
 				<a target="_blank" href="https://snapcreek.com/duplicator/?utm_source=duplicator_free&amp;utm_medium=wordpress_plugin&amp;utm_content=free_install_step2&amp;utm_campaign=duplicator_pro"><b>Duplicator Pro</b></a>
                                  allows the following <b>right from the installer:</b>
 			</div>
@@ -134,7 +142,7 @@ VIEW: STEP 2- INPUT -->
     </div>
     <div id='s2-area-adv-opts' style="display:none">
 		<div class="help-target"><a href="?help#help-s2" target="_blank">[help]</a></div>
-		
+
 		<table class="dupx-opts dupx-advopts">
 			<tr>
 				<td>Spacing:</td>
@@ -158,7 +166,7 @@ VIEW: STEP 2- INPUT -->
 			<tr><td style="width:130px">Charset:</td><td><input type="text" name="dbcharset" id="dbcharset" value="<?php echo $_POST['dbcharset'] ?>" /> </td></tr>
 			<tr><td>Collation:</td><td><input type="text" name="dbcollate" id="dbcollate" value="<?php echo $_POST['dbcollate'] ?>" /> </tr>
 		</table>
-    
+
     </div>
     <br/><br/><br/>
     <br/><br/><br/>
@@ -193,6 +201,7 @@ Auto Posts to view.step3.php
 		<input type="hidden" name="dbuser" id="ajax-dbuser" />
 		<input type="hidden" name="dbpass" id="ajax-dbpass" />
 		<input type="hidden" name="dbname" id="ajax-dbname" />
+		<input type="hidden" name="dbprefix" id="ajax-dbprefix" />
 		<input type="hidden" name="json"   id="ajax-json" />
 		<input type="hidden" name="dbcharset" id="ajax-dbcharset" />
 		<input type="hidden" name="dbcollate" id="ajax-dbcollate" />
@@ -307,6 +316,7 @@ DUPX.runDeployment = function()
 				$("#ajax-dbuser").val($("#dbuser").val());
 				$("#ajax-dbpass").val($("#dbpass").val());
 				$("#ajax-dbname").val($("#dbname").val());
+				$("#ajax-dbprefix").val($("#dbprefix").val());
 				$("#ajax-dbcharset").val($("#dbcharset").val());
 				$("#ajax-dbcollate").val($("#dbcollate").val());
 				$("#ajax-logging").val($("#logging").val());
@@ -384,6 +394,10 @@ DUPX.showDeleteWarning = function ()
 	($('#dbaction').val() == 'empty')
 		? $('#s2-warning-emptydb').show(200)
 		: $('#s2-warning-emptydb').hide(200);
+
+	($('#dbaction').val() == 'update')
+		? $('#s2-warning-updatedb').show(200)
+		: $('#s2-warning-updatedb').hide(200);
 }
 
 
