@@ -112,7 +112,7 @@ DATA;
 		    $html .= "<div class='warn-msg'><b>WARNING:</b> following tables will be updated :";
         $html .= "</ul>";
         foreach($tablesToUpdate as $table) {
-          $html .= "<li>" . $_POST["dbprefix"] . $table . "</li>";
+          $html .= "<li>" . $table . "</li>";
         }
         $html .= "</ul>";
         $html .= "</div>";
@@ -122,7 +122,7 @@ DATA;
       $html .= "<div class='warn-msg'><b>WARNING:</b> following tables will be created :";
       $html .= "</ul>";
       foreach($tablesToCreate as $table) {
-        $html .= "<li>" . $_POST["dbprefix"] . $table . "</li>";
+        $html .= "<li>" . $table . "</li>";
       }
       $html .= "</ul>";
       $html .= "</div>";
