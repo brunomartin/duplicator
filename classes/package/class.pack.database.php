@@ -283,13 +283,27 @@ class DUP_Database
 
         $wpdb->query("SET session wait_timeout = ".DUPLICATOR_DB_MAX_TIME);
         $handle = fopen($this->dbStorePath, 'w+');
-        $tables = $wpdb->get_col('SHOW TABLES');
 
-        foreach ($tables as $key => $val) {
-            $length = strlen($wpdb->prefix);
-            if(substr($tables[$key], 0, $length) !== $wpdb->prefix) {
-              unset($tables[$key]);
+        $sqlPrefixes = explode('_', $wpdb->prefix);
+        $sqlPrefix = implode('\\_', $sqlPrefixes);
+
+        $tables = $wpdb->get_col('SHOW TABLES LIKE \'' . $sqlPrefix . '%\'');
+
+        // looking for multiple installation of wordpress with differents prefixes
+        $results = preg_grep("/options/", $tables);
+
+        if(count($results)>1) {
+          $key = array_search($wpdb->prefix."options", $results);
+          unset($results[$key]);
+          foreach($results as $result) {
+            $badPrefix = str_replace("options", "", $result);
+            foreach ($tables as $key => $val) {
+                $length = strlen($badPrefix);
+                if(substr($tables[$key], 0, $length) === $badPrefix) {
+                  unset($tables[$key]);
+                }
             }
+          }
         }
 
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;

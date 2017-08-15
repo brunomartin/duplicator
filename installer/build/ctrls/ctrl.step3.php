@@ -111,11 +111,11 @@ array_push($GLOBALS['REPLACE_LIST'],
 
 //URL PATHS
 //SEARCH ONLY HTTP(S)
-array_push($GLOBALS['REPLACE_LIST'],
-	array('search' => $_POST['url_old'],			 'replace' => $_POST['url_new']),
-	array('search' => $url_old_json,				 'replace' => $url_new_json),
-	array('search' => urlencode($_POST['url_old']),  'replace' => urlencode($_POST['url_new']))
-);
+// array_push($GLOBALS['REPLACE_LIST'],
+// 	array('search' => $_POST['url_old'],			 'replace' => $_POST['url_new']),
+// 	array('search' => $url_old_json,				 'replace' => $url_new_json),
+// 	array('search' => urlencode($_POST['url_old']),  'replace' => urlencode($_POST['url_new']))
+// );
 
 //INVERSE: Apply a search for the inverse of the orginal http vs https
 if (stristr($_POST['url_old'], 'http:')) {
@@ -133,12 +133,12 @@ if (stristr($_POST['url_old'], 'http:')) {
 	$url_new_diff_json = str_replace('"',  "", json_encode($url_new_diff));
 }
 
-array_push($GLOBALS['REPLACE_LIST'],
-	//INVERSE
-	array('search' => $url_old_diff,			 	 'replace' => $url_new_diff),
-	array('search' => $url_old_diff_json,			 'replace' => $url_new_diff_json),
-	array('search' => urlencode($url_old_diff),  	 'replace' => urlencode($url_new_diff))
-);
+// array_push($GLOBALS['REPLACE_LIST'],
+// 	//INVERSE
+// 	array('search' => $url_old_diff,			 	 'replace' => $url_new_diff),
+// 	array('search' => $url_old_diff_json,			 'replace' => $url_new_diff_json),
+// 	array('search' => urlencode($url_old_diff),  	 'replace' => urlencode($url_new_diff))
+// );
 
 
 //SEARCH WITH NO PROTOCAL: RAW "//"
@@ -161,8 +161,15 @@ function _dupx_array_rtrim(&$value) {
 }
 array_walk_recursive($GLOBALS['REPLACE_LIST'], _dupx_array_rtrim);
 
-// DUPX_Log::info('tables :');
-// DUPX_Log::info(print_r($_POST['tables']));
+DUPX_Log::info('tables :');
+foreach($_POST['tables'] as $table) {
+  DUPX_Log::info($table);
+}
+
+DUPX_Log::info('REPLACE_LIST :');
+foreach($GLOBALS['REPLACE_LIST'] as $replacement) {
+  DUPX_Log::info($replacement['search'] . " => " . $replacement['replace']);
+}
 
 @mysqli_autocommit($dbh, false);
 $report = DUPX_UpdateEngine::load($dbh, $GLOBALS['REPLACE_LIST'], $_POST['tables'], $_POST['fullsearch']);
