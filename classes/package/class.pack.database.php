@@ -13,6 +13,7 @@ class DUP_Database
     public $Name;
     public $Compatible;
     public $Comments;
+    public $TablesToUpdate;
     //PROTECTED
     protected $Package;
     //PRIVATE
@@ -306,6 +307,11 @@ class DUP_Database
           }
         }
 
+        $this->TablesToUpdate = array();
+        foreach ($tables as $table) {
+          $this->TablesToUpdate[] = str_replace($wpdb->prefix, "", $table);
+        }
+
         $filterTables = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
         $tblAllCount  = count($tables);
         $tblFilterOn  = ($this->FilterOn) ? 'ON' : 'OFF';
@@ -336,6 +342,10 @@ class DUP_Database
         foreach ($tables as $table) {
             //$sql_del = ($GLOBALS['duplicator_opts']['dbadd_drop']) ? "DROP TABLE IF EXISTS {$table};\n\n" : "";
             //@fwrite($handle, $sql_del);
+
+            $sql_del = "DROP TABLE IF EXISTS {$table};\n\n";
+            @fwrite($handle, $sql_del);
+
             $create = $wpdb->get_row("SHOW CREATE TABLE `{$table}`", ARRAY_N);
             @fwrite($handle, "{$create[1]};\n\n");
         }

@@ -157,6 +157,7 @@ class DUP_Installer
             "fwrite_dbuser" => $this->Package->Installer->OptsDBUser,
             "fwrite_dbpass" => '',
             "fwrite_wp_tableprefix" => $wpdb->prefix,
+            "fwrite_wp_tables_to_update" => implode(",", $this->Package->Database->TablesToUpdate),
             "fwrite_opts_delete" => json_encode($deleteOpts),
             "fwrite_blogname" => esc_html(get_option('blogname')),
             "fwrite_wproot" => DUPLICATOR_WPROOTPATH,
@@ -183,7 +184,7 @@ class DUP_Installer
     }
 
     /**
-     *  Tokenize a file based on an array key 
+     *  Tokenize a file based on an array key
      *
      *  @param string $filename		The filename to tokenize
      *  @param array  $data			The array of key value items to tokenize

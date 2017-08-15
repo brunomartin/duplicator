@@ -91,6 +91,42 @@ DATA;
 		$html .= ($tblcount > 0)
 			? "<div class='warn-msg'><b>WARNING:</b> " . sprintf(ERR_DBEMPTY, $_POST['dbname'], $tblcount) . "</div>"
 			: '';
+	} else if($_POST['dbaction'] == 'update') {
+    $tablesToInstall = explode(",", $GLOBALS['FW_TABLES_TO_UPDATE']);
+
+    $dbh = DUPX_DB::connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport']);
+    $tablesInDb = DUPX_DB::getTables($dbh);
+
+    $tablesToUpdate = array();
+    $tablesToCreate = array();
+
+    foreach($tablesToInstall as $table) {
+      if(in_array($_POST["dbprefix"] . $table, $tablesInDb)) {
+        $tablesToUpdate[] = $_POST["dbprefix"] . $table;
+      } else {
+        $tablesToCreate[] = $_POST["dbprefix"] . $table;
+      }
+    }
+
+    if(count($tablesToUpdate)>0) {
+		    $html .= "<div class='warn-msg'><b>WARNING:</b> following tables will be updated :";
+        $html .= "</ul>";
+        foreach($tablesToUpdate as $table) {
+          $html .= "<li>" . $_POST["dbprefix"] . $table . "</li>";
+        }
+        $html .= "</ul>";
+        $html .= "</div>";
+    }
+
+    if(count($tablesToCreate)>0) {
+      $html .= "<div class='warn-msg'><b>WARNING:</b> following tables will be created :";
+      $html .= "</ul>";
+      foreach($tablesToCreate as $table) {
+        $html .= "<li>" . $_POST["dbprefix"] . $table . "</li>";
+      }
+      $html .= "</ul>";
+      $html .= "</div>";
+    }
 	}
 
 	//WARNNG: Input has utf8
@@ -142,9 +178,9 @@ if ($_POST['dbaction'] == 'empty' or $_POST['dbaction'] == 'update') {
 //ERR_DBEMPTY
 if ($_POST['dbaction'] == 'create' ) {
 	$tblcount = DUPX_DB::countTables($dbh, $_POST['dbname']);
-	// if ($tblcount > 0) {
-	// 	DUPX_Log::error(sprintf(ERR_DBEMPTY, $_POST['dbname'], $tblcount));
-	// }
+	if ($tblcount > 0) {
+		DUPX_Log::error(sprintf(ERR_DBEMPTY, $_POST['dbname'], $tblcount));
+	}
 }
 
 $log = <<<LOG
