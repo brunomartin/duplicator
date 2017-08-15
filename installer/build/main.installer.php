@@ -141,6 +141,7 @@ $_POST['dbport']    = isset($_POST['dbport']) ? trim($_POST['dbport']) : 3306;
 $_POST['dbuser']	= isset($_POST['dbuser']) ? trim($_POST['dbuser']) : null;
 $_POST['dbpass']	= isset($_POST['dbpass']) ? trim($_POST['dbpass']) : null;
 $_POST['dbname']	= isset($_POST['dbname']) ? trim($_POST['dbname']) : null;
+$_POST['dbprefix']	= isset($_POST['dbprefix']) ? trim($_POST['dbprefix']) : null;
 $_POST['dbcharset'] = isset($_POST['dbcharset'])  ? trim($_POST['dbcharset']) : $GLOBALS['DBCHARSET_DEFAULT'];
 $_POST['dbcollate'] = isset($_POST['dbcollate'])  ? trim($_POST['dbcollate']) : $GLOBALS['DBCOLLATE_DEFAULT'];
 

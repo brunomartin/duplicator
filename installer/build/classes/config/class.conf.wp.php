@@ -28,7 +28,8 @@ class DUPX_WPConfig
 			"/'DB_NAME',\s*'.*?'/",
 			"/'DB_USER',\s*'.*?'/",
 			"/'DB_PASSWORD',\s*'.*?'/",
-			"/'DB_HOST',\s*'.*?'/");
+			"/'DB_HOST',\s*'.*?'/",
+			"/table_prefix\s*=\s*'.*?'/");
 
 		$db_host = ($_POST['dbport'] == 3306) ? $_POST['dbhost'] : "{$_POST['dbhost']}:{$_POST['dbport']}";
 
@@ -36,7 +37,8 @@ class DUPX_WPConfig
 			"'DB_NAME', ".'\''.$_POST['dbname'].'\'',
 			"'DB_USER', ".'\''.$_POST['dbuser'].'\'',
 			"'DB_PASSWORD', ".'\''.DUPX_U::pregReplacementQuote($_POST['dbpass']).'\'',
-			"'DB_HOST', ".'\''.$db_host.'\'');
+			"'DB_HOST', ".'\''.$db_host.'\'',
+			"table_prefix = ".'\''.$_POST['dbprefix'].'\'');
 
 		//SSL CHECKS
 		if ($_POST['ssl_admin']) {
@@ -129,7 +131,7 @@ class DUPX_WPConfig
 				array_push($replace, "'WP_TEMP_DIR', '{$val}');");
 			}
 		}
-		
+
 		//DOMAIN_CURRENT_SITE
 		if (isset($defines['DOMAIN_CURRENT_SITE'])) {
 			$mu_newDomainHost = parse_url($_POST['url_new'], PHP_URL_HOST);
@@ -143,7 +145,7 @@ class DUPX_WPConfig
 			array_push($patterns, "/('|\")PATH_CURRENT_SITE.*?\)\s*;/");
 			array_push($replace, "'PATH_CURRENT_SITE', '{$mu_newUrlPath}');");
 		}
-		
+
 		$config_file = preg_replace($patterns, $replace, $config_file);
 		file_put_contents($wpconfig_path, $config_file);
 		$config_file = file_get_contents($wpconfig_path, true);

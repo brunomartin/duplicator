@@ -1,8 +1,17 @@
 <?php
 	$dbh = DUPX_DB::connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport']);
 
+	$GLOBALS['FW_TABLEPREFIX'] = isset($_POST['dbprefix']) ? trim($_POST['dbprefix']) : $GLOBALS['FW_TABLEPREFIX'];
+
 	$all_tables     = DUPX_DB::getTables($dbh);
 	$active_plugins = DUPX_U::getActivePlugins($dbh);
+
+  foreach ($all_tables as $key => $val) {
+      $length = strlen($GLOBALS['FW_TABLEPREFIX']);
+      if(substr($all_tables[$key], 0, $length) !== $GLOBALS['FW_TABLEPREFIX']) {
+        unset($all_tables[$key]);
+      }
+  }
 
 	$old_path = $GLOBALS['FW_WPROOT'];
 	$new_path = DUPX_U::setSafePath($GLOBALS['CURRENT_ROOT_PATH']);

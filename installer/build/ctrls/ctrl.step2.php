@@ -296,9 +296,11 @@ switch ($_POST['dbaction']) {
 				if($_POST['dbaction'] == "empty") {
 					$found_tables[] = $row[0];
 				} else {
-					$length = strlen($GLOBALS['FW_TABLEPREFIX']);
-					if(substr($tables[$key], 0, $length) === $GLOBALS['FW_TABLEPREFIX']) {
+					// DUPX_Log::info("table : " . $row[0]);
+					$length = strlen($_POST['dbprefix']);
+					if(substr($row[0], 0, $length) === $_POST['dbprefix']) {
 						$found_tables[] = $row[0];
+						// DUPX_Log::info("to be deleted : " . $row[0]);
 					}
 				}
 			}
@@ -331,16 +333,20 @@ $counter = 0;
 
 while ($counter < $sql_result_file_length) {
 
-	$query_strlen = strlen(trim($sql_result_file_data[$counter]));
+	$query = $sql_result_file_data[$counter];
+
+	$query = str_replace($GLOBALS['FW_TABLEPREFIX'], $_POST['dbprefix'], $query);
+
+	$query_strlen = strlen(trim($query));
 
 	if ($dbvar_maxpacks < $query_strlen) {
 
-		DUPX_Log::info("**ERROR** Query size limit [length={$query_strlen}] [sql=" . substr($sql_result_file_data[$counter], 75) . "...]");
+		DUPX_Log::info("**ERROR** Query size limit [length={$query_strlen}] [sql=" . substr($query, 75) . "...]");
 		$dbquery_errs++;
 
 	} elseif ($query_strlen > 0) {
 
-		@mysqli_free_result(@mysqli_query($dbh, ($sql_result_file_data[$counter])));
+		@mysqli_free_result(@mysqli_query($dbh, ($query)));
 		$err = mysqli_error($dbh);
 
 		//Check to make sure the connection is alive
@@ -353,7 +359,7 @@ while ($counter < $sql_result_file_length) {
 				@mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
 				DUPX_DB::setCharset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
 			}
-			DUPX_Log::info("**ERROR** database error write '{$err}' - [sql=" . substr($sql_result_file_data[$counter], 0, 75) . "...]");
+			DUPX_Log::info("**ERROR** database error write '{$err}' - [sql=" . substr($query, 0, 75) . "...]");
 			$dbquery_errs++;
 
 		//Buffer data to browser to keep connection open
